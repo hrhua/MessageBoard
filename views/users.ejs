@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+
+</head>
+<body>
+    <h1><%= title %>主页</h1>
+    <p>Welcome <%= title %></p>
+    <textarea
+            cols="50"
+            rows="4"
+            style="font-size: 50px; align-self: center; resize: none;"
+            id="id_note"></textarea>
+    <br/>
+    <button
+            style="width: 100px; height: 40px; background-color: black; color: #fdfbfb; border-radius: 20px; border: none; outline: none"
+            id="id_submit">
+        提交
+    </button>
+    <br/>
+
+    <div id="id_user_notes">
+        <!--add-->
+    </div>
+
+    <script>
+        document.getElementById("id_submit").onclick = function () {
+            var time = new Date();
+            var postTime = time.getFullYear() + "-" + time.getMonth() + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+            //alert(postTime);
+            var note = document.getElementById("id_note").value;
+            var param = 1;
+            // alert(note);
+            if (note === "") {
+                alert("笔记不可以为空");
+            } else {
+                var params = "User=" + document.title + "&Note=" + note + "&Date=" + postTime + "&Param=" + param;
+                /*异步*/
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {  /*所有数据已经就绪*/
+                        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                            if (xhr.responseText.indexOf("http")!= -1) {
+                                top.location.href = xhr.responseText;
+                            } else {
+                                alert(xhr.responseText);
+                            }
+                        } else {
+                            //alert("response was unsuccessful: " + xhr.status);
+                        }
+                    }
+                };
+                //console.log(params);
+                xhr.open("POST", "http://localhost:3000/note", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send(params);
+            }
+            location.reload();
+        }
+    </script>
+
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {  /*所有数据已经就绪*/
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    // alert(xhr.responseText);
+                    var jsonObj = JSON.parse(xhr.responseText);
+                    getUserNote(jsonObj);
+                } else {
+                    alert("response was unsuccessful: " + xhr.status);
+                }
+            }
+        };
+        xhr.open("GET", "http://localhost:3000/notes/" + document.title, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(null);
+
+        function getUserNote(userNote) {
+            var addNoteList = document.getElementById("id_user_notes");
+            for (var i in userNote) {
+                var ul = document.createElement("Ul");
+                var li1 = document.createElement("Li");
+
+                var date = new Date(i);
+                // console.log(date);
+                console.log(date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds());
+                var text1 = document.createTextNode(userNote[i].User +":  "+ userNote[i].Note + "     "+ date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds());
+
+                li1.appendChild(text1);
+                ul.appendChild(li1);
+                ul.style.background = "#8cffe7";
+                addNoteList.appendChild(ul);
+            }
+        }
+    </script>
+</body>
+</html>

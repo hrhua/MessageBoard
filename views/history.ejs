@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/button_right.css' />
+
+    <div style="width: 100%; height: 160px; background-color: #350a19" class="titleBar;" id="titleBar">
+        <h1 style="color: #fdfbfb; padding-left: 30px; padding-top: 20px; font-size: 40px">留言板</h1>
+        <h3 style="color: #efefe8; padding-left: 15px">&nbsp;&nbsp;&nbsp;MessageBoard</h3>
+    </div>
+</head>
+
+<body>
+<div align="right">
+    <h2>
+        <a><%= title %></a>
+        |
+        <a href="/login_state/<%= title %>" target="_self" id="back" style="text-decoration: none;">返回</a>
+    </h2>
+
+</div>
+
+
+<h1>历史留言</h1>
+
+
+
+<div id="id_user_notes">
+    <!--add-->
+</div>
+
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {  /*所有数据已经就绪*/
+            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                //alert(xhr.responseText);
+                var jsonObj = JSON.parse(xhr.responseText);
+                getUserNote(jsonObj);
+            } else {
+                alert("response was unsuccessful: " + xhr.status);
+            }
+        }
+    };
+    xhr.open("GET", "http://localhost:3000/notes/" + document.title, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+
+    function getUserNote(userNote) {
+        var addNoteList = document.getElementById("id_user_notes");
+        var a=0;
+        for (var i in userNote) {
+            var ul = document.createElement("Ul");
+            var li1 = document.createElement("Li");
+            var bo = document.createElement("button");
+            var date_show;
+
+            var date = new Date(i);
+            bo.id = "bo" + a;
+            bo.name = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+            // console.log(date);
+            console.log(date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds());
+            var text = document.createTextNode("删除");
+            //若未仍是待审核状态，在留言后备注 (待审核状态...)
+            if(userNote[i].pass === 0){
+                date_show = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds() + "(待审核状态...)";
+            }else{
+                date_show = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+            }
+            if(userNote[i].Param === 0){
+                date_show += "（匿名）";
+            }
+
+            var text1 = document.createTextNode(userNote[i].User +":  "+ userNote[i].Note + date_show );
+
+            li1.appendChild(text1);
+            li1.appendChild(bo);
+            bo.appendChild(text);
+            ul.appendChild(li1);
+            ul.style.background = "#8cffe7";
+            addNoteList.appendChild(ul);
+            a++;
+        }
+        setDeleteListener();
+
+    }
+</script>
+
+
+<script>
+    /*删除*/
+    function setDeleteListener() {
+        var list = document.getElementsByTagName("button");
+        for(var i = 0; i < list.length; i++) {
+            list[i].onclick = (function(i) {
+                return function() {
+                    // alert(document.getElementById("bo" + (i)).id);
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4) {  /*所有数据已经就绪*/
+                                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                                    // alert(xhr.responseText);
+                                } else {
+                                    alert("response was unsuccessful: " + xhr.status);
+                                }
+                            }
+                        };
+                        try {
+                            xhr.open("DELETE", "http://localhost:3000/notes/" + document.title + "/" + document.getElementById("bo" + i).name, true);
+                            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                            xhr.send(null);
+                        } catch (err) {
+                        }
+                        location.reload();
+                    }
+            }(i));
+        }
+    }
+</script>
+
+<br><br><br>
+<p>欢迎留言</p>
+</body>
+</html>

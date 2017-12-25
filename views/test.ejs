@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+
+<script src="javascripts/jquery-3.2.1.min.js"></script>
+
+<body>
+    <button
+            style="width: 100px; height: 40px; background-color: black; color: #fdfbfb; border-radius: 20px; border: none; outline: none"
+            id="id_create_list">
+        移除
+    </button>
+
+    <br/>
+
+    <div class="a" id="addList">
+        <ul id="u1">
+            <li>
+                hello hello
+            </li>
+        </ul>
+
+    </div>
+
+    <script>
+        var add = document.getElementById("addList");
+        var li = document.createElement("Li");
+        var textNode=document.createTextNode("Water");
+        li.appendChild(textNode);
+        add.appendChild(li);
+
+        var li2 = document.createElement("Li");
+        var textNode2=document.createTextNode("Water");
+        li2.appendChild(textNode2);
+        add.appendChild(li2);
+
+        li.id = "ll";
+
+        // var addLiHtml = "";
+        // for (var i = 1; i <= 5; i++) {
+        //     addLiHtml += '<ul id="u' + i + '" style="background: #84ff9f"><li>llo</li></ul>';
+        // }
+        // add.ap(addLiHtml);
+        // // $(".a").append(addLiHtml);
+
+    </script>
+    <script>
+        var ta = document.getElementById("ll");
+        ta.onmouseenter = function () {
+            ta.style.background = "#ffb27e";
+        }
+
+        ta.onmouseleave = function () {
+            ta.style.background = "#84ff9f";
+        }
+
+        var ta2 = document.getElementById("u2");
+        ta2.onmouseenter = function () {
+            ta2.style.background = "#ffb27e";
+        }
+
+        ta2.onmouseleave = function () {
+            ta2.style.background = "#84ff9f";
+        }
+    </script>
+
+    <script>
+        var d = document.getElementById("id_create_list");
+        d.onclick = function () {
+            add.removeChild(ta);
+        }
+    </script>
+
+</body>
+</html>
