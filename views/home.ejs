@@ -2,17 +2,19 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <link rel='stylesheet' href='/stylesheets/home.css' />
 
-        <div style="width: 100%; height: 160px; background-color: #350a19" class="titleBar;" id="titleBar">
+        <div style="width: 100%; height: 160px; background-color: #DEB887" class="titleBar;" id="titleBar">
             <h1 style="color: #fdfbfb; padding-left: 30px; padding-top: 20px; font-size: 40px">留言板</h1>
-            <h3 style="color: #efefe8; padding-left: 15px">&nbsp;&nbsp;&nbsp;MessageBoard</h3>
+            <h3 style="color: #efefe8; padding-left: 15px">&nbsp;&nbsp;&nbsp;Webpage message board</h3>
         </div>
+
     </head>
 
 
 
     <body>
+
         <div align="right">
             <h2>
                 <a href="./login" target="_self" id="signIn" style="text-decoration: none; ">登陆</a>
@@ -22,12 +24,14 @@
 
         </div>
 
+        <marquee style="color:forestgreen; font-size:large">Merry Christmas!</marquee>
 
 
 
 
 
         <h1>写留言</h1>
+        <h4> Write a message</h4>
         <textarea cols="50" rows="4" style="font-size: 50px; align-self: center"></textarea>
         <br/>
 
@@ -39,12 +43,17 @@
         </script>
         <input style="width: 100px; height: 40px; background-color: black; color: #fdfbfb; border-radius: 20px; border: none; outline: none" type="button" onclick="loginf()" value="提交"/>
         <br><br><br>
-        站内留言
+        <div style="width: 100%; height: 100px; background-color: #F5F5DC" class="titleBar;" id="titleBar">
+            <h1 style="color: forestgreen; padding-left: 30px; padding-top: 20px; font-size: 40px">站内留言</h1>
+        </div>
 
-        <div id="all_user_notes">
+
+        <div id="all_user_notes" >
             <!--add-->
         </div>
-        <p>欢迎留言</p>
+
+        <marquee style="color:forestgreen; font-size:large">欢迎留言</marquee>
+
         <script>
             document.getElementById('titleBar').style.boxShadow = "0px 0px 10px 3px #fbfbfb";
         </script>
@@ -52,22 +61,21 @@
         <script>
             var signIn = document.getElementById('signIn');
             var signUp = document.getElementById('signUp');
-            /*signIn listener*/
+
+            /*history listener*/
             signIn.onmouseenter = function () {
-                // object.style.boxShadow="none|h-shadow v-shadow blur spread color |inset|initial|inherit"
-                signIn.style.boxShadow="0px 0px 5px 2px #ffffff";
+                signIn.style.color="green";
             };
             signIn.onmouseleave = function () {
-                signIn.style.boxShadow="0px 0px 0px 0px #ffffff";
+                signIn.style.color="#000000";
             };
 
-            /*signUp listener*/
+            /*logout listener*/
             signUp.onmouseenter = function () {
-                // object.style.boxShadow="none|h-shadow v-shadow blur spread color |inset|initial|inherit"
-                signUp.style.boxShadow="0px 0px 5px 2px #ffffff";
+                signUp.style.color="green";
             };
             signUp.onmouseleave = function () {
-                signUp.style.boxShadow="0px 0px 0px 0px #ffffff";
+                signUp.style.color="#000000";
             };
         </script>
 
@@ -91,8 +99,10 @@
 
             function getUserNote(userNote) {
                 var addNoteList = document.getElementById("all_user_notes");
+                var j = 0;
                 for (var i in userNote) {
                     var ul = document.createElement("Ul");
+                    ul.style.borderRadius = "10px";
                     var li1 = document.createElement("Li");
 
                     var name ;
@@ -110,7 +120,12 @@
                     var text1 = document.createTextNode(name +":  "+ userNote[i].Note + "     " +date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds() );
                     li1.appendChild(text1);
                     ul.appendChild(li1);
-                    ul.style.background = "#8cffe7";
+                    if (j%2==1) {
+                        ul.style.background = "#8cffe7";
+                    } else {
+                        ul.style.background = "#FFF8DC";
+                    }
+                    j++;
                     addNoteList.appendChild(ul);
                 }
             }

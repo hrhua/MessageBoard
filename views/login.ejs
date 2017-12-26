@@ -3,54 +3,45 @@
 <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/login.css' />
+    <meta charset="utf-8">
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 </head>
 <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
 
     <div align="center" style="background-color: #fdfbfb; border-radius: 10px; margin-left: 120px; margin-right: 120px;">
+        <div class="main">
+            <div class="login-form">
+                <h1>Member Login</h1>
+                <div class="head">
+                    <img src="images/user.png" alt=""/>
+                </div>
+                <form>
+                    <input id="id_username" name="username" type="text" class="text" value="USERNAME" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'USERNAME';}" >
+                    <input id="id_password" name="password" type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+                    <button
+                    type="button"
+                    style="
+                    width: 200px;
+                    height: 50px;
+                    background-color: #808080;
+                    outline: none;
+                    border: none;
+                    border-radius: 25px;
+                    font-size: 20px;
+                    color: #ffe752;
+                    margin-bottom: 20px"
+                    id="id_login">
 
+                    登陆
+                    </button>
+                    <p><a href="#">Forgot Password ?</a></p>
+                </form>
+            </div>
 
-        <form >
-            <br/>
-            <h1>用户登陆</h1>
-            <h2>
-                用户名：<input
-                        type="text" class="input"
-                        style="height: 25px; border-radius: 15px; border: 1px; outline: none; padding-left: 20px;"
-                        id="id_username"
-                        name="username"/>
-            </h2>
-            <br/>
-            <h2>
-                密 &nbsp;&nbsp;&nbsp;码：<input
-                        type="password" class="input"
-                        style="height: 25px; border-radius: 15px; border: 1px; outline: none; padding-left: 20px;"
-                        id="id_password"
-                        name="password"/>
-            </h2>
-            <br/>
-
-            <br/>
-
-        </form>
-
-        <button
-                type="button"
-                style="
-                width: 200px;
-                height: 50px;
-                background-color: #350a19;
-                outline: none;
-                border: none;
-                border-radius: 25px;
-                font-size: 20px;
-                color: #ffe752;
-                margin-bottom: 20px"
-                id="id_login">
-
-            登陆
-        </button>
+        </div>
+    </div>
 
         <br/>
 
