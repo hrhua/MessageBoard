@@ -167,7 +167,7 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {  /*所有数据已经就绪*/
                 if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-                    // alert(xhr.responseText);
+                     alert(xhr.responseText);
                 } else {
                     //alert("response was unsuccessful: " + xhr.status);
                 }
